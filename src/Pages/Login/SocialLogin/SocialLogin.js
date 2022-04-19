@@ -12,19 +12,22 @@ import { useNavigate } from "react-router-dom";
 
 const SocialLogin = () => {
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+  const [signInWithGithub, userGithub, loadingGithub, errorGithub] =
+    useSignInWithGithub(auth);
   const navigate = useNavigate();
 
   let errorElement;
 
-  if (error) {
+  if (error || errorGithub) {
     errorElement = (
-      <div>
-        <p className="text-danger">Error: {error.message}</p>
-      </div>
+      <p className="text-danger">
+        Error: {error?.message}
+        {errorGithub?.message}
+      </p>
     );
   }
 
-  if (user) {
+  if (user || userGithub) {
     navigate("/home");
   }
 
@@ -47,7 +50,9 @@ const SocialLogin = () => {
           <img style={{ width: "40px" }} src={facebook} alt="" />
           <span className="px-2">Facebook Sign In</span>
         </button>
-        <button className="btn btn-info w-50 mx-auto d-block">
+        <button
+          onClick={() => signInWithGithub()}
+          className="btn btn-info w-50 mx-auto d-block">
           <img style={{ width: "40px" }} src={github} alt="" />
           <span className="px-2">Github Sign In</span>
         </button>

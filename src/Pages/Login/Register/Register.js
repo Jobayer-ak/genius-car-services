@@ -41,7 +41,11 @@ const Register = () => {
         <br />
         <input type="password" name="password" placeholder="Password" />
         <br />
-        <input type="submit" value="Register" />
+        <input
+          className="w-50 mx-auto btn btn-primary"
+          type="submit"
+          value="Register"
+        />
       </form>
       <p>
         New to Genius Car?{" "}
