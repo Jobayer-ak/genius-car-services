@@ -81,7 +81,7 @@ const Login = () => {
         New to Genius Car?{" "}
         <Link
           to="/register"
-          className="text-danger text-decoration-none"
+          className="text-primary text-decoration-none"
           onClick={navigateRegister}>
           Please Register
         </Link>
@@ -90,7 +90,7 @@ const Login = () => {
         Forget Password?{" "}
         <Link
           to="/login"
-          className="text-danger text-decoration-none"
+          className="text-primary text-decoration-none"
           onClick={resetPassword}>
           Reset Password
         </Link>
