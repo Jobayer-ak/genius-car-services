@@ -12,7 +12,7 @@ const Register = () => {
   const [agree, setAgree] = useState(false);
 
   const [createUserWithEmailAndPassword, user, loading, error] =
-    useCreateUserWithEmailAndPassword(auth, { emailVerificationOptions: true });
+    useCreateUserWithEmailAndPassword(auth, { sendEmailVerification: true });
 
   const [updateProfile, updating, updateError] = useUpdateProfile(auth);
 
@@ -23,20 +23,21 @@ const Register = () => {
   };
 
   if (user) {
-    console.log(4444);
-    navigate("/home");
+    console.log("user", user);
   }
 
-  const handleRegister = (event) => {
+  const handleRegister = async (event) => {
     event.preventDefault();
     const name = event.target.name.value;
     const email = event.target.email.value;
     const password = event.target.password.value;
     // const agree = event.target.terms.checked;
 
-    if (agree) {
-      createUserWithEmailAndPassword(email, password);
-    }
+    await createUserWithEmailAndPassword(email, password);
+
+    await updateProfile({ displayName: name });
+    console.log("Updated profile");
+    navigate("/home");
   };
 
   return (
