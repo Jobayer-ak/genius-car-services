@@ -47,7 +47,7 @@ const Login = () => {
     signInWithEmailAndPassword(email, password);
   };
 
-  const navigateRegister = (event) => {
+  const navigateRegister = () => {
     navigate("/register");
   };
 
