@@ -1,16 +1,17 @@
-import React, { useState } from "react";
 import {
-  DirectionsService,
   DirectionsRenderer,
+  DirectionsService,
   GoogleMap,
   LoadScript,
 } from "@react-google-maps/api";
+import React, { useState } from "react";
 
 const Direction = () => {
+  const [formOrigin, setFormOrigin] = useState("");
+  const [formDestination, setFormDestination] = useState("");
   const [response, setResponse] = useState(null);
-
-  const origin = "Tarakanda";
-  const destination = "Mymensingh";
+  const origin = "";
+  const destination = "";
 
   const directionsCallback = (res) => {
     console.log(res);
@@ -24,8 +25,26 @@ const Direction = () => {
     }
   };
 
+  const displayDirection = (event) => {
+    event.preventDefault();
+    const start = event.target.origin.value;
+    const end = event.target.destination.value;
+
+    setFormOrigin(start);
+    setFormDestination(end);
+
+    console.log(start, end);
+  };
+
   return (
     <div>
+      <form onSubmit={displayDirection} className="text-center">
+        <input type="text" name="origin" required />
+        <br />
+        <input type="text" name="destination" required />
+        <br />
+        <input type="submit" value="Show Direction" />
+      </form>
       <LoadScript googleMapsApiKey="AIzaSyCqLMYSthe3SnRhsLaD6QGBYR9yqXPjdXE">
         <GoogleMap
           // required
@@ -46,9 +65,8 @@ const Direction = () => {
             <DirectionsService
               // required
               options={{
-                // eslint-disable-line react-perf/jsx-no-new-object-as-prop
-                destination: destination,
-                origin: origin,
+                origin: { formOrigin },
+                destination: { formDestination },
                 travelMode: "DRIVING",
               }}
               // required
@@ -60,7 +78,6 @@ const Direction = () => {
             <DirectionsRenderer
               // required
               options={{
-                // eslint-disable-line react-perf/jsx-no-new-object-as-prop
                 directions: response,
               }}
             />
