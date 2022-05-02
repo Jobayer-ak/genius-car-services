@@ -12,7 +12,6 @@ const RequireAuth = ({ children }) => {
   const [user, loading, error] = useAuthState(auth);
   const [sendEmailVerification, sending, verifyError] =
     useSendEmailVerification(auth);
-  console.log("inside requireAuth", user);
 
   const location = useLocation();
 
@@ -24,7 +23,7 @@ const RequireAuth = ({ children }) => {
     return <Navigate to="/login" state={{ from: location }} replace></Navigate>;
   }
 
-  if (!user.emailVerified) {
+  if (user.providerData[0]?.providerId === "password" && !user.emailVerified) {
     return (
       <div>
         <h3 className="text-danger">Your Email is not verified!</h3>
