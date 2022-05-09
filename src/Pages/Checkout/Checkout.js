@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import useServiceDetail from "../../hooks/useServiceDetail";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
+import axios from "axios";
+import { toast } from "react-toastify";
 
 const Checkout = () => {
   const { serviceId } = useParams();
@@ -10,6 +12,9 @@ const Checkout = () => {
   const [user] = useAuthState(auth);
   if (user) {
     console.log(user);
+    console.log(user.displayName);
+    console.log(user.email);
+    // console.log(user.phoneNumber);
   }
   // const [user, setUser] = useState({
   //   name: "Kolim Uddin",
@@ -34,7 +39,16 @@ const Checkout = () => {
       serviceId: serviceId,
       address: e.target.address.value,
       phone: e.target.phone.value,
-    }
+    };
+    axios.post("http://localhost:5000/order", order).then((response) => {
+      const { data } = response;
+      if (data.insertedId) {
+        toast("Your order is booked!");
+        e.target.reset();
+      }
+      console.log(response);
+    });
+    // console.log(order.phone);
   };
 
   return (
@@ -45,17 +59,18 @@ const Checkout = () => {
           className="mb-2 w-100"
           type="text"
           name="name"
-          value={user.displayName}
+          value={user?.displayName}
           placeholder="Name"
           required
           readOnly
+          disabled
         />
         <br />
         <input
           className="mb-2 w-100"
           type="email"
           name="emai"
-          value={user.email}
+          value={user?.email}
           placeholder="Email"
           required
           readOnly
@@ -66,9 +81,11 @@ const Checkout = () => {
           className="mb-2 w-100"
           type="text"
           name="service"
-          value={service.name}
+          value={service?.name}
           placeholder="Service Name"
           required
+          readOnly
+          disabled
         />
         <br />
         <input
@@ -76,16 +93,16 @@ const Checkout = () => {
           type="text"
           name="address"
           placeholder="Address"
-          required
           autoComplete="off"
+          required
         />
         <br />
         <input
           className="mb-2 w-100"
           type="number"
-          name="Phone Number"
-          value={user.phone}
+          name="phone"
           placeholder="Phone Number"
+          autoComplete="off"
           required
         />
         <br />
