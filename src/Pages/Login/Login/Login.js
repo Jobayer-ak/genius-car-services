@@ -34,7 +34,7 @@ const Login = () => {
   }
 
   if (user) {
-    // navigate(from, { replace: true });
+    navigate(from, { replace: true });
   }
 
   if (error) {
@@ -48,7 +48,7 @@ const Login = () => {
 
     await signInWithEmailAndPassword(email, password);
     const { data } = await axios.post("http://localhost:5000/login", { email });
-    console.log(data);
+    localStorage.setItem("accessToken", data.accessToken);
   };
 
   const navigateRegister = () => {
