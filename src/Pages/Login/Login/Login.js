@@ -26,10 +26,10 @@ const Login = () => {
 
   let errorElement;
 
-  const [sendPasswordResetEmail, loading] = useSendPasswordResetEmail(auth);
-
   const [signInWithEmailAndPassword, user, sending, error] =
     useSignInWithEmailAndPassword(auth);
+
+  const [sendPasswordResetEmail, loading] = useSendPasswordResetEmail(auth);
 
   // custom hooks
   const [token] = useToken(user);
@@ -39,7 +39,10 @@ const Login = () => {
   }
 
   if (token) {
+    console.log("Got token");
     navigate(from, { replace: true });
+  } else {
+    console.log("Didn't get token");
   }
 
   if (error) {

@@ -39,8 +39,11 @@ const SocialLogin = () => {
     );
   }
 
+  console.log(token);
+
   if (token) {
     navigate(from, { replace: true });
+    console.log("Token: ", token);
   }
 
   return (
