@@ -4,18 +4,18 @@ import useServiceDetail from "../../hooks/useServiceDetail";
 import { useAuthState } from "react-firebase-hooks/auth";
 import auth from "../../firebase.init";
 import axios from "axios";
-import { toast } from "react-toastify"; 
+import { toast } from "react-toastify";
 
 const Checkout = () => {
   const { serviceId } = useParams();
   const [service] = useServiceDetail(serviceId);
   const [user] = useAuthState(auth);
-  if (user) {
-    console.log(user);
-    console.log(user.displayName);
-    console.log(user.email);
-    // console.log(user.phoneNumber);
-  }
+  // if (user) {
+  //   console.log(user);
+  //   console.log(user.displayName);
+  //   console.log(user.email);
+  //   console.log(user.phoneNumber);
+  // }
   // const [user, setUser] = useState({
   //   name: "Kolim Uddin",
   //   email: "kolim@gmail.com",
@@ -40,14 +40,16 @@ const Checkout = () => {
       address: e.target.address.value,
       phone: e.target.phone.value,
     };
-    axios.post("http://localhost:5000/order", order).then((response) => {
-      const { data } = response;
-      if (data.insertedId) {
-        toast("Your order is booked!");
-        e.target.reset();
-      }
-      console.log(response);
-    });
+    axios
+      .post("https://dry-fjord-85963.herokuapp.com/order", order)
+      .then((response) => {
+        const { data } = response;
+        if (data.insertedId) {
+          toast("Your order is booked!");
+          e.target.reset();
+        }
+        console.log(response);
+      });
     // console.log(order.phone);
   };
 

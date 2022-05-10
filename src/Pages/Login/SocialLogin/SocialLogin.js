@@ -10,13 +10,17 @@ import {
 import auth from "../../../firebase.init";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../../../Shared/Loading/Loading";
+import useToken from "../../../hooks/useToken";
 
 const SocialLogin = () => {
+  // hooks
   const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
   const [signInWithGithub, userGithub, loadingGithub, errorGithub] =
     useSignInWithGithub(auth);
   const navigate = useNavigate();
   const location = useLocation();
+  // custom hooks
+  const [token] = useToken(user || userGithub);
 
   let from = location.state?.from?.pathname || "/";
 
@@ -35,7 +39,7 @@ const SocialLogin = () => {
     );
   }
 
-  if (user || userGithub) {
+  if (token) {
     navigate(from, { replace: true });
   }
 
